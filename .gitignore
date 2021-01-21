@@ -1,3 +1,4 @@
 .vscode/
 ENV/
-.__pycache__
+__pycache__/
+*.pickle

@@ -22,7 +22,6 @@ frequencies, times, stft = signal.stft(
     song_input, Fs, nperseg=window_length_samples, nfft=window_length_samples
 )
 
-astrological_map = []
 
 windows = stft.T
 
@@ -35,7 +34,7 @@ plt.xlabel("Frequency (Hz)")
 plt.ylabel("Power")
 
 # %%
-spectrum = np.log(abs(window) ** 2)
+spectrum = (abs(window) ** 2)
 plt.figure()
 plt.plot(frequencies, spectrum)
 plt.title("Log Power Spectrum of Window")
@@ -47,13 +46,15 @@ b, a = signal.butter(3, filter_freq, "low")
 
 filtered = signal.filtfilt(b, a, spectrum)
 
-peaks, props = signal.find_peaks(filtered, prominence=0)
+peaks, props = signal.find_peaks(spectrum, prominence=0, distance=500)
 n_peaks = min(num_peaks, len(peaks))
 # Get the n_peaks largest peaks from the prominences
 largest_peaks = np.argpartition(props["prominences"], -n_peaks)[-n_peaks:]
+astrological_map = []
 for peak in peaks[largest_peaks]:
     astrological_map.append([frequencies[peak], filtered[peak]])
 
+plt.figure()
 plt.plot(frequencies, filtered, label='Filtered Power Spectrum')
 plt.scatter(*zip(*astrological_map), color="r", zorder=10, label="Peaks")
 plt.legend()
@@ -62,3 +63,5 @@ plt.xlabel("Frequency (Hz)")
 plt.ylabel("Log Power")
 plt.show()
 
+
+# %%
