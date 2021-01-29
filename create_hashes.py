@@ -13,7 +13,7 @@ upper_frequency = 23_000
 frequency_bits = 10
 
 
-def create_hashes(constellation_map, song_index=None):
+def create_hashes(constellation_map, song_id=None):
     hashes = {}
     # assume pre-sorted
     # Iterate the constellation
@@ -32,7 +32,7 @@ def create_hashes(constellation_map, song_index=None):
 
             # Produce a 32 bit hash
             hash = int(freq_binned) | (int(other_freq_binned) << 10) | (int(diff) << 20)
-            hashes[hash] = (time, song_index)
+            hashes[hash] = (time, song_id)
     return hashes
 
 # hashes = create_hashes(constellation_map)
